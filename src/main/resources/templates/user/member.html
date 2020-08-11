@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:layout="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="components/custom-layout">
+<head>
+    <meta charset="UTF-8">
+    <title>会员中心</title>
+    <style type="text/css">
+
+        .highlighted {
+            background-color: #9AB6F1;
+        }
+
+        /* 可移动图片的样式 */
+        .moved{
+            padding: 0.5rem !important;
+        }
+        .moved .myimg{
+            width:100%;
+            height:0;
+            padding-bottom:100%;
+            border: #0f0f10 1px solid;
+            border-radius: 3px;
+            position: relative;
+        }
+        .moved .myimg .con{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+        }
+        .moved .myimg .con:hover:after{
+            position: absolute;
+            top: 7px;
+            right: 8px;
+            z-index: 99;
+            content: '\2716';
+            float: right;
+            width: 15px;
+            height: 15px;
+            color: #505739;
+            cursor: pointer;
+        }
+        .moved .myimg img{
+            max-width: 100%;
+            max-height: 100%;
+            overflow: hidden;
+            -o-object-fit: cover;
+            object-fit: cover;
+        }
+
+        /*  上传图片按钮样式  */
+        .filtered{
+            padding: 0.5rem !important;
+        }
+        .filtered .myimg{
+            width:100%;
+            height:0;
+            padding-bottom:100%;
+            border-radius: 3px;
+            position: relative;
+        }
+        .filtered .myimg .con{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+        }
+        .filtered .myimg img{
+            max-width: 100%;
+            max-height: 100%;
+            overflow: hidden;
+            -o-object-fit: cover;
+            object-fit: cover;
+        }
+        .filtered .upload-input{
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            height: 100%;
+            width: 100%;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<div layout:fragment="content" >
+
+    <div class="ui container" style="margin: 20px auto">
+
+        <div class="ui grid">
+
+            <div class="four wide column">
+                <div class="ui center fluid secondary vertical pointing menu" id="manage-menu">
+                    <a class="item detail" th:href="@{/user/member/detail}">
+                        个人资料
+                    </a>
+                    <a class="item password" th:href="@{/user/member/password}">
+                        修改密码
+                    </a>
+                </div>
+            </div>
+
+            <div class="twelve wide stretched column">
+                <div th:replace="${page}::${content}"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript" th:inline="javascript">
+
+        var requestURL = [[${#request.requestURL}]];
+        $("#manage-menu .item").removeClass("active");
+
+        if(requestURL.indexOf('detail') > 0){
+            $("#manage-menu").find(".detail").addClass("active");
+        }else if(requestURL.indexOf('password') > 0){
+            $("#manage-menu").find(".password").addClass("active");
+        }else {
+            $("#manage-menu").find(".detail").addClass("active");
+        }
+
+    </script>
+
+</div>
+
+</body>
+</html>

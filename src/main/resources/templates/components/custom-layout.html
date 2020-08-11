@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/static/semantic/semantic.min.css}" />
+    <script type="text/javascript" th:src="@{/static/js/jquery-3.5.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/semantic/semantic.min.js}"></script>
+
+    <style type="text/css">
+        html, body {
+            height: 100% !important;
+        }
+        .footer {
+            margin-top: -80px;
+            height: 80px;
+            background: blue;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+
+
+<div style="min-height: 100%;">
+
+    <div th:include="components/custom-header :: header"></div>
+
+    <div layout:fragment="content" ></div>
+
+</div>
+
+<div th:include="components/footer :: footer" class="footer"></div>
+
+</body>
+</html>

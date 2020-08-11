@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/semantic/semantic.min.css" />
+    <!--<link href="/static/semantic.min.css" />-->
+
+</head>
+<body>
+
+hello world
+
+<button onclick="download()"> 文件下载</button>
+
+<br/>
+
+<br/>
+
+<br/>
+
+
+<h3>单文件上传</h3>
+
+<form method="post" action="/file/upload" enctype="multipart/form-data">
+    <input type="file" name="file"><br>
+    <input type="submit" value="提交">
+</form>
+
+
+<h3>多文件上传</h3>
+
+<form method="post" action="/file/multiUpload" enctype="multipart/form-data">
+    <input type="file" name="file"><br>
+    <input type="file" name="file"><br>
+    <input type="file" name="file"><br>
+    <input type="submit" value="提交">
+</form>
+
+
+
+<script src="/static/js/jquery-3.5.1.min.js"></script>
+<script src="/static/semantic/semantic.min.js"></script>
+
+<script>
+
+    function download() {
+        console.log("-------------");
+        window.open("http://localhost:8080/aliyun/file/download")
+    }
+
+</script>
+
+
+</body>
+</html>

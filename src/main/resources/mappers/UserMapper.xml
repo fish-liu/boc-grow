@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.grow.demo.dao.IUserDao">
+
+    <select id="getUser" resultType="com.grow.demo.model.User">
+        select name,password,nick_name nickName,gender,birthday,phone,email,avatar from grow_users
+        where 1 = 1
+        <if test="id != '' ">
+            and id = #{id}
+        </if>
+        <if test="phone != '' ">
+            and phone = #{phone}
+        </if>
+        <if test="ip != '' ">
+            and email = #{email}
+        </if>
+        limit 1
+    </select>
+
+    <update id="updatePassword">
+        update grow_users set password=${password}, update_time = now()
+        where id = #{id}
+    </update>
+
+    <update id="updateAvatar">
+        update grow_users set avatar=${avatar}, update_time = now()
+        where id = #{id}
+    </update>
+
+    <insert id="save" parameterType="com.grow.demo.model.User">
+        insert into grow_users (name,password,nick_name,gender,birthday,phone,email,avatar,`status`,create_time,update_time)
+        values(#{name},#{password},#{nickName},#{gender},#{birthday},#{phone},#{email},#{avatar},#{status},now(),now())
+        <selectKey keyProperty="id" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.grow.demo.model.User">
+        update grow_users set name = #{name},password=${password}, birthday = #{birthday} ,avatar = #{avatar}, update_time = now()
+        where id = #{id}
+    </update>
+
+    <update id="updateStatusById">
+        update grow_users set status = #{status} , update_time = now() where id = #{id}
+    </update>
+
+    <delete id="deleteById" >
+        update grow_users set status = 2 , update_time = now() where id = #{id}
+    </delete>
+
+
+    <!--
+    <select id="getList" resultType="com.ucarinc.framework.looker.server.model.OperationRecord" parameterType="java.util.Map">
+        select id,instance_id instanceId,project_name projectName,business_line businessLine,framework_version frameworkVersion,ip,service_url serviceUrl,
+              url, param,email, user_name userName, role ,create_time createTime
+        from looker_operation_record
+        where 1 = 1
+        <if test="projectName != '' ">
+            and project_name like '${projectName}%'
+        </if>
+        <if test="ip != '' ">
+            and ip like '${ip}%'
+        </if>
+        order by create_time desc
+        limit #{startPage} ,#{pageSize}
+    </select>
+
+    <select id="getListCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(id) from looker_operation_record
+        where 1 = 1
+        <if test="projectName != '' ">
+            and project_name like '${projectName}%'
+        </if>
+        <if test="ip != '' ">
+            and ip like '${ip}%'
+        </if>
+    </select>
+    -->
+
+</mapper>

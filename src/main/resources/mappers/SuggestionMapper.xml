@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.grow.demo.dao.ISuggestionDao">
+    
+    <select id="getList" resultType="com.grow.demo.model.Suggestion">
+      select id,title,context,status,submitter,email,create_time createTime,update_time updateTime from grow_suggestion
+      where status = 0
+      limit #{startPage} ,#{pageSize}
+    </select>
+
+    <select id="getListCount" resultType="int">
+        select count(*) from grow_suggestion where status = 0
+    </select>
+    
+    <insert id="save" parameterType="com.grow.demo.model.Suggestion">
+        insert into grow_suggestion (title,context,status,submitter,email,create_time,update_time)
+        values(#{title},#{context},#{status},#{submitter},#{email},now(),now())
+        <selectKey keyProperty="id" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <update id="updateStatusById">
+        update grow_suggestion set status = #{status} , update_time = now() where id = #{id}
+    </update>
+
+    <delete id="deleteById" >
+        update grow_suggestion set status = 2 , update_time = now() where id = #{id}
+    </delete>
+
+</mapper>

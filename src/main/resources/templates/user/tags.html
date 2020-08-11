@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>标签管理</title>
+</head>
+<body>
+
+<div th:fragment="tags">
+
+    <div class="my-tags">
+
+        <!-- 标签可以随意删除及添加 ，公共标签再这里只做展示，不能修改-->
+        <div class="ui fluid card">
+            <div class="content">
+                <div class="header">私有分类管理</div>
+            </div>
+
+            <div class="content" id="private-tags">
+                <div class="tag-list">
+                    <a class="ui tag label">标签<i class="delete icon"></i></a>
+                    <a class="ui tag label">标签<i class="delete icon"></i></a>
+                </div>
+
+            </div>
+
+            <div class="content" >
+                <div class="ui action left icon input">
+                    <i class="tags icon"></i>
+                    <input type="text" placeholder="输入标签" id="tag">
+                    <button class="ui green button" onclick="addTags()">添加</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="ui fluid card">
+            <div class="content">
+                <div class="header">公共标签</div>
+            </div>
+            <div class="content">
+                <div class="tag-list">
+                    <a class="ui teal tag label">未来</a>
+                    <a class="ui teal tag label">未来</a>
+                    <a class="ui teal tag label">未来</a>
+                    <a class="ui teal tag label">未顶顶顶来</a>
+                    <a class="ui teal tag label">未地方都是来</a>
+                    <a class="ui teal tag label">未fds来</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+        var tagsNum = 0;
+
+        function addTags() {
+            if(tagsNum > 0){
+                $("#private-tags").show()
+            }
+
+            var v = $("#tag").val();
+            /* 为空判断*/
+            if($.trim(v) == ''){
+                return;
+            }
+
+            $("#private-tags .tag-list").append('<a class="ui tag label">'+v+'<i class="delete icon"></i></a>')
+
+            $("#tag").val("");
+        }
+
+    </script>
+
+</div>
+
+</body>
+</html>

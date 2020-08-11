@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!--<link rel="stylesheet" type="text/css" href="./static/semantic/semantic.min.css" />-->
+
+</head>
+<body>
+
+<header th:fragment="header">
+
+    <div class="ui menu" >
+        <div class="item">
+            <img src="./static/img/logo.png">
+        </div>
+        <a class="item index" href="./">首页</a>
+        <a class="item about" href="./about">关于我们</a>
+        <a class="item sgt" href="./sgt">宝贵建议</a>
+
+        <div class="right menu">
+            <a class="item">登录</a>
+            <a class="item">注册</a>
+        </div>
+    </div>
+
+    <script type="text/javascript" th:inline="javascript">
+
+        //获取请求路径
+        var requestURL = [[${#request.requestURL}]];
+        console.log("-------requestURL-------",requestURL);
+        $(".menu .item").removeClass("active");
+
+        if(requestURL.indexOf('sgt') > 0){
+            $(".menu").find(".sgt").addClass("active");
+        }else if(requestURL.indexOf('about') > 0){
+            $(".menu").find(".about").addClass("active");
+        }else {
+            $(".menu").find(".index").addClass("active");
+        }
+
+    </script>
+
+</header>
+
+</body>
+</html>

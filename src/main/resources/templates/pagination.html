@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>分页demo</title>
+
+    <link rel="stylesheet" type="text/css" href="./static/semantic/semantic.min.css" />
+
+</head>
+<body>
+
+<div class="ui container">
+
+
+    <div class="ui right floated pagination mini menu" th:if="${totalPages} gt 7">
+        <!-- previous -->
+        <a th:if="${pageable.pageNumber-1} != -1" class="icon item" href="javascript:void(0);" th:classappend="${pageable.pageNumber}==0 ? 'disabled' : ''"
+           th:onClick="|window.scenario.pageable('${url}',${pageable.pageNumber-1},${pageable.pageSize})|">
+            <i class="angle double left icon"></i>
+        </a>
+        <!-- first -->
+        <a class="icon item" href="javascript:void(0);" th:class="${pageable.pageNumber+1}==1? 'icon link item active':'icon link item'" th:onClick="|window.scenario.pageable('${url}',0,${pageable.pageSize})|">1</a>
+        <!-- current <=4 -->
+        <a th:if="${pageable.pageNumber+1} le 4" th:each="i : ${#numbers.sequence(2, 5)}"
+           th:class="(${i}==${pageable.pageNumber+1})? 'icon link item active':'icon link item'"  th:text="${i}"
+           href="javascript:void(0);" th:onClick="|window.scenario.pageable('${url}',${i-1},${pageable.pageSize})|" ></a>
+        <div class="item" th:if="${pageable.pageNumber+1} le 4">...</div>
+        <!-- last-current<=3 -->
+        <div class="item" th:if="${totalPages -(pageable.pageNumber+1)} le 3">...</div>
+        <a th:if="${totalPages -(pageable.pageNumber+1)} le 3" th:each="i : ${#numbers.sequence(totalPages-4, totalPages-1)}"
+           th:class="(${i}==${pageable.pageNumber+1})? 'icon link item active':'icon link item'"  th:text="${i}"
+           href="javascript:void(0);" th:onClick="|window.scenario.pageable('${url}',${i-1},${pageable.pageSize})|" ></a>
+        <!-- last-current>3 && current >4 -->
+        <div class="item" th:if="${((totalPages -1 - pageable.pageNumber) gt 3) && ((pageable.pageNumber+1) gt 4)}">...</div>
+        <a th:if="${((totalPages -1 - pageable.pageNumber) gt 3) && (pageable.pageNumber+1 gt 4)}" class="icon link active item"
+           href="javascript:void(0);" th:onClick="|window.scenario.pageable('${url}',${pageable.pageNumber},${pageable.pageSize})|" >[[${pageable.pageNumber+1}]]</a>
+
+        <a th:if="${((totalPages -1 - pageable.pageNumber) gt 3) && (pageable.pageNumber+1 gt 4)}" class="icon link item"
+           href="javascript:void(0);" th:onClick="|window.scenario.pageable('${url}',${pageable.pageNumber+1},${pageable.pageSize})|" >[[${pageable.pageNumber+2}]]</a>
+
+        <a th:if="${((totalPages -1 - pageable.pageNumber) gt 3) && (pageable.pageNumber+1 gt 4)}" class="icon link item"
+           href="javascript:void(0);" th:onClick="|window.scenario.pageable('${url}',${pageable.pageNumber+2},${pageable.pageSize})|" >[[${pageable.pageNumber+3}]]</a>
+        <div class="item" th:if="${((totalPages -1 - pageable.pageNumber) gt 3) && (pageable.pageNumber+1 gt 4)}">...</div>
+        <!-- last -->
+        <a class="icon item" href="javascript:void(0);" th:text="${totalPages}"
+           th:class="${pageable.pageNumber}==${totalPages-1}? 'icon link item active':'icon link item'"
+           th:onClick="|window.scenario.pageable('${url}',${totalPages-1},${pageable.pageSize})|">1</a>
+        <!-- next -->
+        <a th:if="${pageable.pageNumber+1} < ${totalPages}" class="icon item" href="javascript:void(0);" th:classappend="${pageable.pageNumber}==${totalPages-1} ? 'disabled' : ''"
+           th:onClick="|window.scenario.pageable('${url}',${pageable.pageNumber+1},${pageable.pageSize})|">
+            <i class="angle double right icon"></i>
+        </a>
+    </div>
+    <div class="ui right floated pagination mini menu" th:if="${totalPages} le 7">
+        <a th:if="${pageable.pageNumber-1} != -1" class="icon item" href="javascript:void(0);" th:classappend="${pageable.pageNumber}==0 ? 'disabled' : ''"
+           th:onClick="|window.scenario.pageable('${url}',${pageable.pageNumber-1},${pageable.pageSize})|">
+            <i class="left angle double icon"></i>
+        </a>
+        <a th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="(${i-1}==${pageable.pageNumber})? 'icon link item active':'icon link item'"  th:text="${i}"
+           href="javascript:void(0);" th:onClick="|window.scenario.pageable('${url}',${i-1},${pageable.pageSize})|" ></a>
+
+        <a th:if="${pageable.pageNumber+1} < ${totalPages}" class="icon item" href="javascript:void(0);" th:classappend="${pageable.pageNumber}==${totalPages-1} ? 'disabled' : ''"
+           th:onClick="|window.scenario.pageable('${url}',${pageable.pageNumber+1},${pageable.pageSize})|">
+            <i class="angle double right icon"></i>
+        </a>
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript" src="./static/js/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="./static/semantic/semantic.min.js"></script>
+
+<script>
+
+    $(document).ready(function(){
+
+        $(".accordion").accordion();
+
+    });
+
+    function localRefresh() {
+        $("#list_refresh").load("./sgt/list");
+    }
+
+</script>
+
+</body>
+</html>

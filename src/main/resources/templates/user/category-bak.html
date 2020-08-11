@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>分类管理页面</title>
+
+    <link rel="stylesheet" type="text/css" href="./static/semantic/semantic.min.css" />
+
+    <style type="text/css">
+
+        .list-flex{
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="ui container">
+
+    <h2>分类管理页面</h2>
+
+    <div class="ui text container">
+
+        <div class="ui fluid card">
+            <div class="content">
+                <div class="header">公共分类管理</div>
+            </div>
+            <div class="content">
+
+                <div class="ui divided relaxed list">
+                    <div class="item">
+                        <div class="list-flex">
+                            <div >Lena</div>
+                            <div class="ui button">Add</div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="list-flex">
+                            <div >Lindsay</div>
+                            <div class="ui button">Add</div>
+                        </div>
+                    </div>
+                    <div class="item" >
+                        <div class="list-flex">
+                            <div >Mark</div>
+                            <div class="ui positive button">启用</div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="list-flex">
+                            <div >Molly</div>
+                            <div class="ui yellow button">禁用</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="ui fluid card">
+            <div class="content">
+                <div class="header">私有分类管理</div>
+            </div>
+
+
+            <div class="content">
+                <div class="ui divided relaxed list private-category">
+                    <div class="item">
+                        <div class="list-flex">
+                            <div >Molly</div>
+                            <div class="ui yellow button">禁用</div>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="list-flex">
+                            <div >Molly</div>
+                            <div class="ui negative button">删除</div>
+                        </div>
+                    </div>
+
+                    <div class="item add-category">
+                        <div class="ui action input">
+                            <input type="text" placeholder="添加分类..." id="category">
+                            <button class="ui green button" onclick="addCategory()">添加</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="ui button">保存</div>
+
+    </div>
+
+
+</div>
+
+
+
+<script type="text/javascript" src="./static/js/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="./static/semantic/semantic.min.js"></script>
+
+<script>
+
+    function addCategory() {
+        var v = $("#category").val();
+
+        /* 为空判断*/
+        if($.trim(v) == ''){
+            return;
+        }
+        /* 添加到列表 */
+        $(".add-category").before('<div class="item"><div class="list-flex"><div >'+v+'</div><div class="ui yellow button">禁用</div></div></div>');
+
+        /* 超过个数判断 */
+        if($('.private-category .item').length >= 6){
+            $(".add-category button").addClass("disabled");
+        }
+        /* 清空输入框 */
+        $("#category").val("");
+    }
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.grow.demo.dao.IArticleDao">
+
+
+    <resultMap id="ArticleVoMap" type="com.grow.demo.model.vo.ArticleVo">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="imgIds" property="imgIds"/>
+        <result column="uid" property="uid"/>
+        <result column="cateId" property="cateId"/>
+        <result column="location" property="location"/>
+        <result column="visibility" property="visibility"/>
+        <result column="publishTime" property="publishTime"/>
+        <collection property="tagList" ofType="com.grow.demo.model.vo.TagsVo">
+            <id column="tagId" property="tagId"/>
+            <result column="tagName" property="tagName"/>
+            <result column="type" property="type"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="getArticleList" resultMap="ArticleVoMap">
+        select t1.id,t1.content,t1.img_ids imgIds,t1.uid,t1.cate_id cateId,t1.location,t1.visibility,t1.publish_time publishTime,t3.id tagId,t3.tag_name tagName,t3.type from (
+            select id,content,img_ids,uid,cate_id,location,visibility,`status`,publish_time from  grow_article
+            where uid = #{uid} and `status` = 0 limit 2
+        ) t1
+        INNER JOIN  grow_article_tags t2 on t1.id = t2.arti_id
+        LEFT JOIN grow_tags t3 on t2.tag_id = t3.id
+        where  t3.`status` = 0
+    </select>
+
+    <select id="getTagListFromArticle" resultType="com.grow.demo.model.vo.TagsVo" parameterType="java.lang.Integer">
+        select t3.id tagId,t3.tag_name tagName,t3.type
+        from grow_article_tags t2
+        LEFT JOIN grow_tags t3 on t2.tag_id = t3.id
+        where t2.arti_id  = #{id} and t3.`status` = 0
+    </select>
+
+
+    <insert id="save" parameterType="com.grow.demo.model.Article">
+        insert into grow_article (content,img_ids,uid,cate_id,location,visibility,`status`,publish_time,create_time,update_time)
+        values(#{content},#{imgIds},#{uid},#{cateId},#{location},#{visibility},#{status},#{publishTime},now(),now())
+        <selectKey keyProperty="id" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.grow.demo.model.Article">
+        update grow_article set content = #{content},cate_id=${cateId}, visibility = #{visibility} ,publish_time = #{publishTime}, update_time = now()
+        where id = #{id}
+    </update>
+
+    <update id="updateStatusById">
+        update grow_article set status = #{status} , update_time = now() where id = #{id}
+    </update>
+
+    <delete id="deleteById" >
+        update grow_article set status = 2 , update_time = now() where id = #{id}
+    </delete>
+
+    <!--
+
+    <select id="getList" resultType="com.ucarinc.framework.looker.server.model.OperationRecord" parameterType="java.util.Map">
+        select id,instance_id instanceId,project_name projectName,business_line businessLine,framework_version frameworkVersion,ip,service_url serviceUrl,
+              url, param,email, user_name userName, role ,create_time createTime
+        from looker_operation_record
+        where 1 = 1
+        <if test="projectName != '' ">
+            and project_name like '${projectName}%'
+        </if>
+        <if test="ip != '' ">
+            and ip like '${ip}%'
+        </if>
+        order by create_time desc
+        limit #{startPage} ,#{pageSize}
+    </select>
+
+    <select id="getListCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(id) from looker_operation_record
+        where 1 = 1
+        <if test="projectName != '' ">
+            and project_name like '${projectName}%'
+        </if>
+        <if test="ip != '' ">
+            and ip like '${ip}%'
+        </if>
+    </select>
+
+    -->
+
+</mapper>

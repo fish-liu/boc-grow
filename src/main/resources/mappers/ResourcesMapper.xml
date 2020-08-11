@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.grow.demo.dao.IResourcesDao">
+
+    <insert id="save" parameterType="com.grow.demo.model.Resources">
+        insert into grow_resources (uid,name,path,suffix,type,size,`status`,create_time,update_time)
+        values(#{uid},#{name},#{path},#{suffix},#{type},#{size},#{status},now(),now())
+        <selectKey keyProperty="id" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.grow.demo.model.Resources">
+        update grow_resources set name = #{name},path=${path}, suffix = #{suffix},update_time = now()
+        where id = #{id}
+    </update>
+
+    <update id="updateStatusById">
+        update grow_resources set status = #{status} , update_time = now() where id = #{id}
+    </update>
+
+    <delete id="deleteById" >
+        update grow_resources set status = 2 , update_time = now() where id = #{id}
+    </delete>
+
+</mapper>
